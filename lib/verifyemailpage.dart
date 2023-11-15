@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:photo/homePage.dart';
 import 'package:photo/userdata.dart';
 import 'package:photo/utils.dart';
 
@@ -81,7 +82,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
 
   @override
-  Widget build(BuildContext context) => isEmailVerifed ? UserDetails():Scaffold(
+  Widget build(BuildContext context) => isEmailVerifed ? HomePage():Scaffold(
     appBar: AppBar(title: Text('verify email')),
     body: Padding(padding: EdgeInsets.all(16),child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
