@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class _SignUpState extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
 
   @override
   void dispose() {
@@ -23,6 +26,8 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+     userController.dispose();
+    bioController.dispose();
   }
 
   @override
@@ -56,6 +61,20 @@ class _SignUpState extends State<SignUp> {
               obscureText: true,
             ),
             SizedBox(height: 20,),
+            TextField(
+            controller: userController,
+            cursorColor: Colors.white,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(labelText: "enter your username"),
+          ),
+          SizedBox(height: 4,),
+          TextField(
+            controller: bioController,
+            cursorColor: Colors.white,
+           textInputAction: TextInputAction.next,
+            decoration: InputDecoration(labelText: "enter your bio"),
+          ),
+          SizedBox(height: 20,),
             ElevatedButton.icon(onPressed: signUp, icon: Icon(Icons.lock_open,size: 32,), label: Text("Sign Up",style: TextStyle(fontSize: 24),),style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(50)),),
       
             SizedBox(height: 24,),
@@ -85,6 +104,9 @@ class _SignUpState extends State<SignUp> {
     showDialog(context: context,barrierDismissible: false, builder: (context)=>Center(child: CircularProgressIndicator(),));
     try {
      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
+
+     //adding users data
+     userDetails(emailController.text.trim(), userController.text.trim(), bioController.text.trim());
     }
    on FirebaseAuthException catch(e){
 
@@ -93,4 +115,12 @@ class _SignUpState extends State<SignUp> {
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
+  Future userDetails(String email,String user,String bio)async {
+
+    await FirebaseFirestore.instance.collection("userPosts").add({
+      'email':email,
+        'user':user,
+        'bio':bio,
+    });
+   }
 }

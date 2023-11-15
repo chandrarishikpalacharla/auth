@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:photo/homePage.dart';
-import 'package:photo/userdata.dart';
 import 'package:photo/utils.dart';
 
 class VerifyEmailPage extends StatefulWidget {
